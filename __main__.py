@@ -5,6 +5,7 @@ import praw
 import glob
 import imageio
 import requests
+import upload_gfycat
 from parse_images import ImageFetcher
 from os import listdir
 from os.path import isfile, join
@@ -60,3 +61,5 @@ for submission in ps_battles.hot(limit=5):
     clear_cache()
     ImageFetcher(submission).collect_images()
     generate_gif()
+
+    upload_gfycat.upload_gif(submission.title, ["gifbot", "psbattle"], "cache/movie.gif")
