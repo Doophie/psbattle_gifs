@@ -30,8 +30,12 @@ def upload_gif(title, tags, file):
     gfyid = create.json().get("gfyname")
 
     if gfyid:
-        print("gif will be @ https://gfycat.com/{}".format(gfyid))
+        upload_url = "https://gfycat.com/{}".format(gfyid)
+        print("gif will be @ {}".format(upload_url))
 
         with open(file, "rb") as video:
             res = requests.put("https://filedrop.gfycat.com/{}".format(gfyid), video)
             print(res.status_code)
+
+        return upload_url
+    return "fail"

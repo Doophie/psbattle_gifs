@@ -55,11 +55,16 @@ for submission in ps_battles.hot(limit=5):
     if not submission.link_flair_text == "Battle":
         continue
 
-    print("making gif for submission {}".format(submission.title))
-    print("selftext {}".format(submission.url))
+    stickied_comment = None
+    for comment in submission.comments:
+        if comment.body == "[deleted]":
+            for comment_reply in comment.replies:
+                stickied_comment = comment_reply
 
     clear_cache()
     ImageFetcher(submission).collect_images()
     generate_gif()
 
-    upload_gfycat.upload_gif(submission.title, ["gifbot", "psbattle"], "cache/movie.gif")
+    upload_url = upload_gfycat.upload_gif(submission.title, ["gifbot", "psbattle"], "cache/movie.gif")
+
+    stickied_comment.reply("[Here is a gif of all responses!]({})  \n\n ^(This comment was generated automatically by a bot please send complaints to u/Doophie - this bot is new and is likely going to have issues)".format(upload_url))
